@@ -14,9 +14,25 @@ The library supports the following protocols:
 The protocols mentioned can be used simultaneously. The library brokers all incoming message types
 and directs them to the appropriate requestors (synchronous as well as asynchronous) and events.
 
+Currently [Standard Firmata 2.4](https://github.com/firmata/protocol/blob/master/protocol.md) is supported.
+
 Technology used: Microsoft .NET/C# v4.5
 
-### A basic code example
+### Code example: Setting pin 13 HI
+
+In this example a connection is made to an Arduino board attached to any USB port. Then pin 13 is set HI.
+
+    using Solid.Arduino;
+
+    (...)
+
+	var session = new ArduinoSession(SerialConnection.FindSerialConnection());
+	session.SetDigitalPin(13, true);
+
+
+### Code example: Getting board capabilities
+
+In this example the board capabilities of an Arduino device are retrieved and displayed.
 
     using Solid.Arduino.Firmata;
 
@@ -54,7 +70,7 @@ Technology used: Microsoft .NET/C# v4.5
 
 ## Current status
 
-**v0.2**
+**v0.3**
 
 Code complete for the library core. (Beta)
 
@@ -71,6 +87,10 @@ Code complete for the library core. (Beta)
 1. Finish unit tests for latest additions.
 2. Develop a WPF application demonstrating the library (project Solid.Arduino.Monitor).
 3. Release the first version.
+
+## License
+[BSD-2 license](https://github.com/SolidSoils/Arduino/blob/master/LICENSE.md)
+ 
 
 ## Contributing
 If you discover a bug or would like to propose a new feature,

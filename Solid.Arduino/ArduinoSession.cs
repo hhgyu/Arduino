@@ -66,13 +66,8 @@ namespace Solid.Arduino
         {
             AnalogState = 0xE0, // 224
             DigitalState = 0x90, // 144
-            ReportAnalog = 0xC0,
-            ReportDigital = 0xD0,
             SystemExtension = 0xF0,
-            SetPinMode = 0xF4,
-            SetDigitalPinValue = 0xF5,
-            ProtocolVersion = 0xF9,
-            SystemReset = 0xFF
+            ProtocolVersion = 0xF9
         }
 
         private enum StringReadMode {
@@ -124,7 +119,7 @@ namespace Solid.Arduino
         private const byte SysExStart = 0xF0;
         private const byte SysExEnd = 0xF7;
 
-        private const int Buffersize = 512;
+        private const int Buffersize = 2048;
         private const int MaxQueuelength = 100;
 
         private readonly ISerialConnection _connection;
@@ -383,13 +378,13 @@ namespace Solid.Arduino
             _connection.Write(message, 0, index + 1);
         }
 
-        /// <inheritdoc cref="IFirmataProtocol.SetDigitalPinValue(int,bool)"/>
-        public void SetDigitalPinValue(int pinNumber, bool value)
+        /// <inheritdoc cref="IFirmataProtocol.SetDigitalPin(int,bool)"/>
+        public void SetDigitalPin(int pinNumber, bool value)
         {
             if (pinNumber < 0 || pinNumber > 127)
                 throw new ArgumentOutOfRangeException("pinNumber", Messages.ArgumentEx_PinRange0_127);
 
-            _connection.Write(new byte[] { (byte)0xF5, (byte)pinNumber, (byte)(value ? 1 : 0) }, 0, 3);
+            _connection.Write(new[] { (byte)0xF5, (byte)pinNumber, (byte)(value ? 1 : 0) }, 0, 3);
         }
 
         /// <inheritdoc cref="IFirmataProtocol.SetAnalogReportMode"/>
@@ -618,7 +613,7 @@ namespace Solid.Arduino
                 (byte)((maxPulse >> 7) & 0x7F),
                 SysExEnd
             };
-            _connection.Write(command, 0, 7);
+            _connection.Write(command, 0, 8);
         }
 
         #endregion

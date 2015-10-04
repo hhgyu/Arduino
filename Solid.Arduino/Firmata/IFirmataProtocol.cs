@@ -38,10 +38,10 @@ namespace Solid.Arduino.Firmata
         AnalogInput = 2,
         PwmOutput = 3,
         ServoControl = 4,
-        ShiftInOut = 5,
         I2C = 6,
         OneWire = 7,
-        StepperControl = 8
+        StepperControl = 8,
+        Encoder = 9
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ namespace Solid.Arduino.Firmata
     /// Currently version 2.3 is supported.
     /// </summary>
     /// <seealso href="https://github.com/firmata/arduino">Firmata project on GitHub</seealso>
-    /// <seealso href="http://www.firmata.org/wiki/Protocol">Firmata protocol details</seealso>
+    /// <seealso href="https://github.com/firmata/protocol">Firmata protocol details</seealso>
     /// <seealso href="http://arduino.cc/en/reference/firmata">Firmata reference for Arduino</seealso>
     public interface IFirmataProtocol
     {
@@ -195,18 +195,18 @@ namespace Solid.Arduino.Firmata
         void SetSamplingInterval(int milliseconds);
 
         /// <summary>
-        /// Sets an analog value on a PWM or Servo enabled digital pin.
+        /// Sets an analog value on a PWM or Servo enabled analog output pin.
         /// </summary>
         /// <param name="pinNumber">The pin number.</param>
         /// <param name="value">The value</param>
         void SetDigitalPin(int pinNumber, long value);
 
         /// <summary>
-        /// Sets a digital value
+        /// Sets a HI or LO value on a digital output pin.
         /// </summary>
-        /// <param name="pinNumber">The pin number.</param>
-        /// <param name="value">The value</param>
-        void SetDigitalPinValue(int pinNumber, bool value);
+        /// <param name="pinNumber">The pin number</param>
+        /// <param name="value">The value (<c>false</c> = Low, <c>true</c> = High)</param>
+        void SetDigitalPin(int pinNumber, bool value);
 
         /// <summary>
         /// Sends a reset message to the party system.
